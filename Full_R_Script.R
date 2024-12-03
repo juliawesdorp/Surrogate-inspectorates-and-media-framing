@@ -35,15 +35,6 @@ dataset["Q9_Conflict"][dataset["Q9_Conflict"] == 2] <- 1
 dataset["Q10_Sensatie"][dataset["Q10_Sensatie"] == 1] <- 0
 dataset["Q10_Sensatie"][dataset["Q10_Sensatie"] == 2] <- 1
 
-dataset$binary_personalization <- ifelse(dataset$Q8_Person>1,1,0)
-
-dataset$binary_toon <- ifelse(dataset$Q7_Toon>1,0,1)
-
-table(dataset[c("Q7_Toon","Q3_Inspectie")])
-table(dataset[c("Q8_Person","Q3_Inspectie")])
-table(dataset[c("Q9_Conflict","Q3_Inspectie")])
-table(dataset[c("Q10_Sensatie","Q3_Inspectie")])
-
 # ==== 3. ANALYSES =====
 # ==== 3.1 Binary logistic regression - creating models=====
 # Creating the models
@@ -75,21 +66,6 @@ table(dataset$Q7_Toon)
 log_model_toon <- glm(binary_toon ~ surrogate + Q3_Inspectie + Q1_Medium, data = dataset, family = binomial())
 log_model_toon_control <- glm(binary_toon ~ Q3_Inspectie + Q1_Medium, data = dataset, family = binomial()) 
 summary(log_model_toon)
-
-# Assumptions
-## Multicolinearity
-vif(log_model_conflict)
-vif(log_model_sensatie)
-vif(log_model_pers)
-vif(log_model_toon)
-
-## Linearity of the logit  - not necessary since categorical variables, so it is met.
-
-## Independent errors
-durbinWatsonTest(log_model_conflict)
-durbinWatsonTest(log_model_sensatie)
-durbinWatsonTest(log_model_pers)
-durbinWatsonTest(log_model_toon)
 
 # ==== 3.2 Binary logistic regression - analyzing models =====
 # CONFLICT
