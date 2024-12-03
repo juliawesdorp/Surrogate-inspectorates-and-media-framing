@@ -107,52 +107,7 @@ model_difference_toon <- log_model_toon_control$deviance - log_model_toon$devian
 chidf_difference_toon <- log_model_toon_control$df.residual - log_model_toon$df.residual
 chisq.prob_difference_t <- 1 - pchisq(model_difference_toon, chidf_difference_toon)
 
-# ==== 3.3 Binary logistic regression - R2 =====
-## McFadden
-PseudoR2(log_model_conflict, which = "McFadden")
-PseudoR2(log_model_pers, which = "McFadden")
-PseudoR2(log_model_sensatie, which = "McFadden")
-PseudoR2(log_model_toon, which = "McFadden")
-
-## Cox, Snell
-PseudoR2(log_model_conflict, which = "CoxSnell")
-PseudoR2(log_model_pers, which = "CoxSnell")
-PseudoR2(log_model_sensatie, which = "CoxSnell")
-PseudoR2(log_model_toon, which = "CoxSnell")
-
-## Nagelkerke
-NagelkerkeR2(log_model_conflict)
-NagelkerkeR2(log_model_sensatie)
-NagelkerkeR2(log_model_pers)
-NagelkerkeR2(log_model_toon)
-
 # ==== 4. GRAPHS =====
-## Graph - Years & amount of attention
-dataset$date <- dmy(dataset$Q5_Datum)
-dataset$year <- lubridate::year(dataset$date)
-articles_per_year <- dataset %>%
-  group_by(year, Q3_Inspectie) %>%
-  summarise(article_count = n())
-
-names_regulator <- c(
-  "1" = "NVWA",
-  "2" = "ILT",
-  "3" = "ACM",
-  "4" = "SodM",
-  "5" = "DCMR",
-  "6" = "AP")
-
-colors <- c("red2", "royalblue1", "forestgreen", "orange", "deeppink1", "darkmagenta")
-
-articles_per_regulator <- ggplot(articles_per_year, aes(x=year, y=article_count, color = Q3_Inspectie)) +
-  geom_line() + 
-  geom_point() +
-  geom_smooth(method = "lm", col = "blue")+
-  labs(x ="Year", y = "Number of articles", title = "Media attention over the years per regulator")+
-  facet_wrap(~Q3_Inspectie, scales = "free_y", labeller = labeller(Q3_Inspectie = names_regulator))+
-  scale_x_continuous(breaks = pretty(dataset$year, n = 8)) +
-  scale_color_manual(values = colors)
-
 ## Graph - Valence over the years
 valence_per_year <- dataset %>%
   group_by(year, Q7_Toon) %>%
@@ -173,20 +128,4 @@ valence_years <- ggplot(filtered_data, aes(x=year, y=article_count)) +
     axis.text = element_text(face="bold", size = 12)
   )
 
-## Graph - Percentages negativity  - because each year has different sample sizes
-df_n <- data.frame(
-  Year = c("2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"),
-  Percentage = c(45.7, 38.7, 49.4, 51.1, 45.2, 53.1, 46.1, 48.9, 47.1, 46.5, 50.8, 54.8, 54.8)
-)
 
-negativity_controlled <- ggplot(df_n, aes(x=Year, y = Percentage, group = 1)) + 
-  geom_line( color="black") +
-  geom_point (shape=21, color="black", fill="#69b3a2", size=4)+
-  geom_smooth(method = "lm", col = "blue")+
-  ylim(30, 70)+
-  ggtitle("Percentage negativity per year")+
-  theme(
-    axis.title.x = element_text(face="bold", size = 14),
-    axis.title.y = element_text(face="bold", size = 14),
-    axis.text = element_text(face="bold", size = 12)
-  )
