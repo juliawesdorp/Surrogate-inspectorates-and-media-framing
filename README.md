@@ -13,11 +13,10 @@ The data is not yet available, but comes in .csv format.
 
 **To start:**
 The following  numbers belong to these regulatory agencies:
-  1 = Nederlandse Voedsel- en Warenautoriteit
-  
-  2 = Inspectie Leefomgeving en Transport
-  3 = Autoriteit Consument & Markt
-  4 = Staatstoezicht op de Mijnen
-  5 = Milieudinest Rijnmond## 5 = DCMR
-  8 = Autoriteit Persoongsgevens
+1 = Nederlandse Voedsel- en Warenautoriteit
+2 = Inspectie Leefomgeving en Transport
+3 = Autoriteit Consument & Markt
+4 = Staatstoezicht op de Mijnen
+5 = Milieudinest Rijnmond## 5 = DCMR
+8 = Autoriteit Persoongsgevens
 Number 6 and 7 were not used in this study.
