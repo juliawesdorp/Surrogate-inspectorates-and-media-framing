@@ -20,3 +20,5 @@ The following  numbers belong to these regulatory agencies:
 5 = Milieudinest Rijnmond## 5 = DCMR
 8 = Autoriteit Persoongsgevens
 Number 6 and 7 were not used in this study.
+
+License: Apache License 2.0
