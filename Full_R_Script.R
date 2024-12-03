@@ -281,65 +281,6 @@ negativity_controlled <- ggplot(df_n, aes(x=Year, y = Percentage, group = 1)) +
 
 negativity_controlled 
 
-##Graph - surrogate histogram
-surrogate_columns <- grep("^Q12_", names(dataset), value = TRUE)
-print(surrogate_columns)
-frequencies <- colSums(dataset[surrogate_columns])
-frequencies
-surrogate_data <- data.frame(
-  surrogate_type = gsub("Q12_", "", surrogate_columns),
-  frequency=frequencies
-)
-surrogate_data <- subset(surrogate_data, surrogate_type != "Toezichthouder")
-rownames(surrogate_data) <- NULL
-surrogate_data
-
-unique(surrogate_data$surrogate_type)
-
-surrogate_data$surrogate_type <- mapvalues(surrogate_data$surrogate_type,
-                                           from = c("Internationaal", "Rijk", "Provincie", "Gemeente", "Waterschap", 
-                                                    "Politiek", "Advocaat", "Privaat", "Burger", "Onderzoeksinstituut",
-                                                    "Media", "BNer", "Stichting", "Belangenvereniging", "Overig"),
-                                           to = c("International", "National gov", "Province", "Municipality", 
-                                                  "Water authority", "Politics", "Law", "Private", "Citizens", 
-                                                  "Research org", "Media", "Celebrities", "Foundation", 
-                                                  "Interest groups", "Other"))
-
-
-surrogate_data$surrogate_type <- factor(surrogate_data$surrogate_type,
-                                        levels = unique(surrogate_data$surrogate_type))
-
-surrogates_2 <- ggplot(surrogate_data, aes(x=surrogate_type , y=frequency))+
-  geom_bar(stat = "identity", fill="salmon2")+
-  coord_flip()+
-  xlab("Type of surrogate")+
-  ylab("Frequencies")
-surrogates_2
-surrogates_2+ theme(axis.text.y = element_text(size = 10, colour = "black", face = "bold"),
-                    axis.text.x = element_text(size = 10, colour = "black", face = "bold"),
-                    axis.title.x = element_text(size = 11),
-                    axis.title.y = element_text(size = 11))
-
-
-
-df_frames <- data.frame(
-  Frame = c("Personalisatie", "Conflict", "Sensatie", "Negativiteit"),
-  Percentage = c(5.8, 28, 20.7, 50.7)
-)
-library(ggplot2)
-frames <- ggplot(df_frames, aes(x=Frame, y=Percentage, fill=Frame))+
-  geom_bar(stat = "identity")+
-  scale_fill_brewer(palette = "Set2")
-
-frames
-
-##Surrogate over the years
-dataset$date <- dmy(dataset$Q5_Datum)
-dataset$year <-lubridate::year(dataset$date)
-surrogates_per_year <- dataset %>%
-  group_by(year, surrogate) %>%
-  summarise(article_count = n())
-table(dataset$year, dataset$surrogate)
 
 surrogate_year <- lm(surrogate ~ year, data = dataset)
 summary(surrogate_year)
