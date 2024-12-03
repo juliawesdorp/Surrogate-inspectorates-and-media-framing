@@ -13,7 +13,7 @@ The data is available in .csv and .xlsx format.
 
 **To start:**
 # Import data
-dataset <- read.csv("path/to/your/file.csv", stringsAsFactors=FALSE, sep= ",")
+dataset <- read.csv("your\\path\\to\\dataset.csv", stringsAsFactors=FALSE, sep= ";")
 
 The following  numbers belong to these regulatory agencies:
 1 = Nederlandse Voedsel- en Warenautoriteit
